@@ -46,15 +46,14 @@ submitBtn.addEventListener("click", async function onSubmitHandler() {
   const startDate = document.getElementById("start-date").value;
   const endDate = document.getElementById("end-date").value;
 
-  const resultsContainer = document.getElementById("cards-container");
-  // Empty the result div to remove initial text
-  resultsContainer.innerHTML = "";
-
-  // Show loader
-  const loader = createLoader();
-  resultsContainer.appendChild(loader);
-
   if (country && startDate && endDate) {
+    const resultsContainer = document.getElementById("cards-container");
+    // Empty the result div to remove initial text
+    resultsContainer.innerHTML = "";
+
+    // Show loader
+    const loader = createLoader();
+    resultsContainer.appendChild(loader);
     const results = await fetchResults(country, startDate, endDate);
 
     if (results) {
