@@ -8,6 +8,10 @@ async function fetchResults(country, startDate, endDate) {
   return data;
 }
 
+function clearContainer(node) {
+  node.innerHTML = "";
+}
+
 function createTextElement(elementType, text) {
   const element = document.createElement(elementType);
   const textNode = document.createTextNode(text);
@@ -25,16 +29,16 @@ function createResultCard(result) {
   const resultDivContainer = document.createElement("div");
   resultDivContainer.classList.add("card");
 
-  const confirmedCases = createTextElement(
-    "p",
-    `Confirmed Cases: ${result.Confirmed}`
-  );
   const activeCases = createTextElement("p", `Active Cases: ${result.Active}`);
+  const recoveredCases = createTextElement(
+    "p",
+    `Recovered Cases: ${result.Recovered}`
+  );
   const deathCases = createTextElement("p", `Death Cases: ${result.Deaths}`);
 
   // Append Elements to the card
-  resultDivContainer.appendChild(confirmedCases);
   resultDivContainer.appendChild(activeCases);
+  resultDivContainer.appendChild(recoveredCases);
   resultDivContainer.appendChild(deathCases);
 
   return resultDivContainer;
@@ -46,23 +50,37 @@ submitBtn.addEventListener("click", async function onSubmitHandler() {
   const startDate = document.getElementById("start-date").value;
   const endDate = document.getElementById("end-date").value;
 
+  const resultsContainer = document.getElementById("cards-container");
+
+  // Check if country, startDate and endDate are truth values else raise an alert
   if (country && startDate && endDate) {
-    const resultsContainer = document.getElementById("cards-container");
     // Empty the result div to remove initial text
-    resultsContainer.innerHTML = "";
+    clearContainer(resultsContainer);
 
     // Show loader
     const loader = createLoader();
     resultsContainer.appendChild(loader);
-    const results = await fetchResults(country, startDate, endDate);
 
-    if (results) {
-      // Empty the result div to remove loader
-      resultsContainer.innerHTML = "";
-      results.forEach((result) => {
-        const resultCard = createResultCard(result);
-        if (resultsContainer) resultsContainer.appendChild(resultCard);
-      });
+    try {
+      const results = await fetchResults(country, startDate, endDate);
+      if (results) {
+        // Empty the result div to remove loader
+        clearContainer(resultsContainer);
+        results.forEach((result) => {
+          const resultCard = createResultCard(result);
+          if (resultsContainer) resultsContainer.appendChild(resultCard);
+        });
+      } else {
+        const errorText = createTextElement("h1", "Results not found");
+        resultsContainer.appendChild(errorText);
+      }
+    } catch (error) {
+      clearContainer(resultsContainer);
+      const errorText = createTextElement(
+        "h1",
+        "An error occured. Please try again"
+      );
+      resultsContainer.appendChild(errorText);
     }
   } else {
     alert("Please enter the values");
