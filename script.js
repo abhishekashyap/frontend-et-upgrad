@@ -15,11 +15,20 @@ function createTextElement(elementType, text) {
   return element;
 }
 
+function createLoader() {
+  const element = document.createElement("div");
+  element.className = "loader";
+  return element;
+}
+
 function createResultCard(result) {
   const resultDivContainer = document.createElement("div");
   resultDivContainer.classList.add("card");
 
-  const confirmedCases = createTextElement("p", `Confirmed Cases: ${result.Confirmed}`);
+  const confirmedCases = createTextElement(
+    "p",
+    `Confirmed Cases: ${result.Confirmed}`
+  );
   const activeCases = createTextElement("p", `Active Cases: ${result.Active}`);
   const deathCases = createTextElement("p", `Death Cases: ${result.Deaths}`);
 
@@ -32,17 +41,25 @@ function createResultCard(result) {
 }
 
 submitBtn.addEventListener("click", async function onSubmitHandler() {
+  // Input elements
   const country = document.getElementById("country").value;
   const startDate = document.getElementById("start-date").value;
   const endDate = document.getElementById("end-date").value;
 
+  const resultsContainer = document.getElementById("cards-container");
+  // Empty the result div to remove initial text
+  resultsContainer.innerHTML = "";
+
+  // Show loader
+  const loader = createLoader();
+  resultsContainer.appendChild(loader);
+
   if (country && startDate && endDate) {
     const results = await fetchResults(country, startDate, endDate);
-    console.log(results);
 
     if (results) {
-      const resultsContainer = document.getElementById("cards-container");
-
+      // Empty the result div to remove loader
+      resultsContainer.innerHTML = "";
       results.forEach((result) => {
         const resultCard = createResultCard(result);
         if (resultsContainer) resultsContainer.appendChild(resultCard);

@@ -4,6 +4,7 @@
   --background-secondary: #2e3440;
   --background-tertiary: #434c5e;
   --text-primary: #eceff4;
+  --text-secondary: #eceff4a1;
 }
 
 html {
@@ -73,8 +74,12 @@ body {
 
 #cards-container {
   display: flex;
+  color: var(--text-secondary);
   flex-wrap: wrap;
   overflow: auto;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
 }
 
 .card {
@@ -91,4 +96,22 @@ body {
   height: 250px;
   width: 250px;
   background-color: #2e3440;
+}
+
+.loader {
+  border: 16px solid var(--background-tertiary);
+  border-top: 16px solid var(--accent-primary);
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
