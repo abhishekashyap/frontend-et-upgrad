@@ -8,6 +8,29 @@ async function fetchResults(country, startDate, endDate) {
   return data;
 }
 
+function createTextElement(elementType, text) {
+  const element = document.createElement(elementType);
+  const textNode = document.createTextNode(text);
+  element.appendChild(textNode);
+  return element;
+}
+
+function createResultCard(result) {
+  const resultDivContainer = document.createElement("div");
+  resultDivContainer.classList.add("card");
+
+  const confirmedCases = createTextElement("p", `Confirmed Cases: ${result.Confirmed}`);
+  const activeCases = createTextElement("p", `Active Cases: ${result.Active}`);
+  const deathCases = createTextElement("p", `Death Cases: ${result.Deaths}`);
+
+  // Append Elements to the card
+  resultDivContainer.appendChild(confirmedCases);
+  resultDivContainer.appendChild(activeCases);
+  resultDivContainer.appendChild(deathCases);
+
+  return resultDivContainer;
+}
+
 submitBtn.addEventListener("click", async function onSubmitHandler() {
   const country = document.getElementById("country").value;
   const startDate = document.getElementById("start-date").value;
@@ -15,24 +38,16 @@ submitBtn.addEventListener("click", async function onSubmitHandler() {
 
   if (country && startDate && endDate) {
     const results = await fetchResults(country, startDate, endDate);
+    console.log(results);
 
     if (results) {
       const resultsContainer = document.getElementById("cards-container");
 
       results.forEach((result) => {
-        console.log(resultsContainer);
-        console.log("hello");
-        const resultDivContainer = document.createElement("div");
-        resultDivContainer.className = "card-container";
-        if (resultsContainer) resultsContainer.appendChild(resultDivContainer);
+        const resultCard = createResultCard(result);
+        if (resultsContainer) resultsContainer.appendChild(resultCard);
       });
     }
-
-    console.log(results);
-
-    console.log(country);
-    console.log(startDate);
-    console.log(endDate);
   } else {
     alert("Please enter the values");
   }
