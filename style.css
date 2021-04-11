@@ -1,0 +1,72 @@
+:root {
+  --accent-primary: #88c0d0;
+  --background-primary: #151621;
+  --background-secondary: #2e3440;
+  --background-tertiary: #434c5e;
+  --text-primary: #eceff4;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background-color: var(--background-primary);
+  background-image: url("https://unsplash.com/photos/9XjTaSUbYbI/download?force=true&w=1920");
+  height: 100%;
+  padding: 3rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  backdrop-filter: blur(30px);
+  border-radius: 20px;
+  border: 2px solid black;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.form-container {
+  padding: 3rem;
+  display: flex;
+  justify-content: space-around;
+  background-color: var(--background-secondary);
+}
+
+.form-container input {
+  color: var(--text-primary);
+  padding: 1rem;
+  margin: 1rem;
+  border: none;
+  border-radius: 10px;
+  flex: 2;
+  outline: none;
+  background-color: var(--background-tertiary);
+}
+
+.form-container input:focus {
+  box-shadow: 0 0 0.2rem 0.1rem var(--accent-primary);
+}
+
+#country,
+#submit-btn {
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
+}
+
+#submit-btn {
+  color: var(--background-tertiary);
+  background-color: var(--accent-primary);
+  flex: 1;
+  padding: 1rem;
+  text-transform: uppercase;
+}
